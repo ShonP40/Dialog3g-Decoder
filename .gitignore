@@ -3,3 +3,4 @@ research/
 docs/
 esphome/secrets.yaml
 esphome/watermeter*.yaml
+.DS_Store
