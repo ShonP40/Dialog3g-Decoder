@@ -227,8 +227,10 @@ void Xl4432::spiInitRadio()
 {
 	spiWriteRegister(0x07, 0x80);
 	esphome::delay(100);
-	spiReadRegister(0x03);
-	spiReadRegister(0x04);
+	uint8_t mode = spiReadRegister(0x07);
+	uint8_t status = spiReadRegister(0x03);
+	uint8_t irq = spiReadRegister(0x04);
+	ESP_LOGI("xl4432", "SPI probe: MODE=0x%02X STATUS=0x%02X IRQ=0x%02X", mode, status, irq);
 	esphome::delay(100);
 }
 
