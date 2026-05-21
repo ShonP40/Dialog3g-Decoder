@@ -40,6 +40,7 @@ class Xl4432 {
 	void  spiEnableReciver();
 	void  checkForNewPacket();
 	void  initXl4432Registers();
+	void  spiInitRadio();
 	Xl4432(char id[3], bool use_id_as_sync = false);
 	void set_spi_client(esphome::xl4432_spi_sensor::Xl4432SPISensor *client) { spi_device_ = client; }
 	uint8_t read_status_register(uint8_t addr) { return spiReadRegister(addr); }
@@ -54,7 +55,6 @@ class Xl4432 {
 
   private:
 	void  readPacketFromFifo();
-	void  spiInitRadio();
 	void  spiXl4432Fifo();
 	void  spiReadPacketFromFifo(uint8_t length);
 	uint8_t spiReadRegister(uint8_t addr);
