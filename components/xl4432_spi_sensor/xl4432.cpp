@@ -170,8 +170,8 @@ PacketStatus Xl4432::validatePacket()
 	// 2-bit correction
 	for (int i = 0; i < NUM_TOTAL; i++) {
 		if ((i & 0x0F) == 0) {
-			App.feed_wdt();
-			yield();
+			esphome::App.feed_wdt();
+			esphome::yield();
 		}
 		uint64_t r1 = syndrome ^ syn[i];
 		for (int j = i+1; j < NUM_TOTAL; j++) {
@@ -185,8 +185,8 @@ PacketStatus Xl4432::validatePacket()
 	// 3-bit correction (~680K iterations worst case)
 	for (int i = 0; i < NUM_TOTAL; i++) {
 		if ((i & 0x07) == 0) {
-			App.feed_wdt();
-			yield();
+			esphome::App.feed_wdt();
+			esphome::yield();
 		}
 		uint64_t r1 = syndrome ^ syn[i];
 		for (int j = i+1; j < NUM_TOTAL; j++) {
