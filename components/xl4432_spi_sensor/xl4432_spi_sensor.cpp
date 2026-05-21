@@ -64,9 +64,7 @@ void Xl4432SPISensor::setup() {
     xl4432.initXl4432Registers();
     xl4432.lastMeterMeasurment = 0;
     this->set_interval(100, [this]() {
-      xl4432.spiDisableReciver();
       xl4432.checkForNewPacket();
-      xl4432.spiEnableReciver();
     });
 #ifdef USE_ARDUINO
     if (tcp_enabled_) {
