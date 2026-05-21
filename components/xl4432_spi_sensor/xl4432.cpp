@@ -230,9 +230,6 @@ void Xl4432::spiInitRadio()
 	ESP_LOGI("xl4432", "XL4432 probe: DEVTYPE=0x%02X VERSION=0x%02X", device_type, device_version);
 	spiWriteRegister(0x07, 0x80);
 	esphome::delay(100);
-	uint8_t post_reset_version = spiReadRegister(0x01);
-	ESP_LOGI("xl4432", "XL4432 post-reset VERSION=0x%02X", post_reset_version);
-	esphome::delay(100);
 }
 
 void Xl4432::spiDisableReciver()
