@@ -61,6 +61,12 @@ void Xl4432SPISensor::setup() {
   this->spi_setup();
   xl4432.set_spi_client(this);
   this->set_timeout(15000, [this]() {
+    if (this->irq_pin_ != nullptr) {
+      this->irq_pin_->setup();
+      this->irq_pin_->pin_mode(gpio::FLAG_INPUT | gpio::FLAG_PULLUP);
+      this->irq_pin_->setup();
+      this->irq_pin_->attach_interrupt(&nIRQ_ISR, this, gpio::INTERRUPT_FALLING_EDGE);
+    }
     xl4432.initXl4432Registers();
     xl4432.lastMeterMeasurment = 0;
     this->set_interval(100, [this]() {
