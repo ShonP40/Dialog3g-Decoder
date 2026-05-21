@@ -54,9 +54,7 @@ void Xl4432SPISensor::set_tcp_server(bool enabled) {
 }
 
 IRAM_ATTR void nIRQ_ISR(Xl4432SPISensor *) {
-  xl4432.spiDisableReciver();
-  xl4432.checkForNewPacket();
-  xl4432.spiEnableReciver();
+  xl4432.nIRQState = 1;
 }
 
 void Xl4432SPISensor::setup() {
@@ -108,6 +106,13 @@ if (tcp_enabled_) {
     }
 }
 #endif
+
+if (xl4432.nIRQState) {
+  xl4432.nIRQState = 0;
+  xl4432.spiDisableReciver();
+  xl4432.checkForNewPacket();
+  xl4432.spiEnableReciver();
+}
 
 if (!xl4432.packetReady)
     return;
