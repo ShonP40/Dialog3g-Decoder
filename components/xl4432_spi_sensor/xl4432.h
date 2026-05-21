@@ -42,6 +42,7 @@ class Xl4432 {
 	void  initXl4432Registers();
 	Xl4432(char id[3], bool use_id_as_sync = false);
 	void set_spi_client(esphome::xl4432_spi_sensor::Xl4432SPISensor *client) { spi_device_ = client; }
+	uint8_t read_status_register(uint8_t addr) { return spiReadRegister(addr); }
 	uint64_t expectedScramble();
 	uint64_t deriveConstant();
 	PacketStatus validatePacket();

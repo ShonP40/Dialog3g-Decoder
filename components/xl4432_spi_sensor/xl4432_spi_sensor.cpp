@@ -68,6 +68,9 @@ void Xl4432SPISensor::setup() {
       this->irq_pin_->attach_interrupt(&nIRQ_ISR, this, gpio::INTERRUPT_FALLING_EDGE);
     }
     xl4432.initXl4432Registers();
+    uint8_t status_03 = xl4432.read_status_register(0x03);
+    uint8_t status_04 = xl4432.read_status_register(0x04);
+    ESP_LOGI(TAG, "XL4432 probe: REG03=0x%02X REG04=0x%02X", status_03, status_04);
     xl4432.lastMeterMeasurment = 0;
     this->set_interval(100, [this]() {
       xl4432.spiDisableReciver();
