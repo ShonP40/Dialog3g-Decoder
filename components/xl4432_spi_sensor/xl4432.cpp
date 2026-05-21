@@ -1,6 +1,12 @@
 #include "esphome/core/log.h"
+#include "esphome/core/hal.h"
 #include "xl4432_spi_sensor.h"
 #include "xl4432.h"
+
+#ifdef USE_ARDUINO
+#include <Arduino.h>
+#include <SPI.h>
+#endif
 
 // 40-bit LFSR with 3 feedback taps — generates all basis vectors
 // Forward chain: bytes 12→11→10→9→8→7→6→5→4→3→2→1→0 (104 states)
@@ -212,10 +218,10 @@ void Xl4432::readPacketFromFifo()
 void Xl4432::spiInitRadio()
 {
 	spiWriteRegister(0x07, 0x80);
-	delay(100);
+	esphome::delay(100);
 	spiReadRegister(0x03);
 	spiReadRegister(0x04);
-	delay(100);
+	esphome::delay(100);
 }
 
 void Xl4432::spiDisableReciver()
@@ -310,18 +316,18 @@ void Xl4432::checkForNewPacket()
 
 uint8_t Xl4432::spiReadRegister(uint8_t addr) {
 	uint8_t data;
-	digitalWrite(SS, LOW);
-	SPI.transfer(addr & 0x7F);
-	data = SPI.transfer(0x00);
-	digitalWrite(SS, HIGH);
+	this->spi_device_->enable();
+	this->spi_device_->transfer_byte(addr & 0x7F);
+	data = this->spi_device_->transfer_byte(0x00);
+	this->spi_device_->disable();
 	return data;
 }
 
 void Xl4432::spiWriteRegister(uint8_t addr, uint8_t data) {
-	digitalWrite(SS, LOW);
-	SPI.transfer(addr | 0x80);
-	SPI.transfer(data);
-	digitalWrite(SS, HIGH);
+	this->spi_device_->enable();
+	this->spi_device_->transfer_byte(addr | 0x80);
+	this->spi_device_->transfer_byte(data);
+	this->spi_device_->disable();
 }
 
 void Xl4432::binToHexString()

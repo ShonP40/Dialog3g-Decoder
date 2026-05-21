@@ -33,6 +33,7 @@ sensor:
   - platform: xl4432_spi_sensor
     name: water_meter
     cs_pin: GPIO15
+    irq_pin: GPIO5
     meter_id: "0x4E61BC"
     accuracy_decimals: 1
 ```
@@ -43,6 +44,7 @@ sensor:
 |--------|----------|---------|-------------|
 | `meter_id` | Yes | — | Meter ID as hex string (e.g., `"0x4E61BC"`) |
 | `cs_pin` | Yes | — | SPI chip select pin |
+| `irq_pin` | No | `GPIO5` | XL4432 nIRQ pin |
 | `packet_sniff` | No | `false` | Log all packets without filtering or publishing |
 | `tcp_server` | No | `false` | Stream packets over WiFi (TCP port 4321) for the Android app |
 | `accuracy_decimals` | No | `1` | Decimal places for the consumption reading |

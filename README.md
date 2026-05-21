@@ -62,6 +62,7 @@ sensor:
   - platform: xl4432_spi_sensor
     name: water_meter
     cs_pin: GPIO15
+    irq_pin: GPIO5
     meter_id: "0x4E61BC"
     accuracy_decimals: 1
 ```
@@ -77,6 +78,7 @@ sensor:
   - platform: xl4432_spi_sensor
     name: sniffer
     cs_pin: GPIO15
+    irq_pin: GPIO5
     meter_id: "0x000000"
     packet_sniff: true
 ```
@@ -92,6 +94,7 @@ sensor:
   - platform: xl4432_spi_sensor
     name: sniffer
     cs_pin: GPIO15
+    irq_pin: GPIO5
     meter_id: "0x000000"
     packet_sniff: true
     tcp_server: true

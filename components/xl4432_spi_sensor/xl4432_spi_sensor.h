@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esphome/core/component.h"
+#include "esphome/core/gpio.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/spi/spi.h"
 
@@ -14,7 +15,9 @@ namespace xl4432_spi_sensor {
 
 #define SNIFF_TCP_PORT 4321
 
-ICACHE_RAM_ATTR void nIRQ_ISR();
+class Xl4432SPISensor;
+
+void nIRQ_ISR(Xl4432SPISensor *arg);
 
 class Xl4432SPISensor : public sensor::Sensor,
                        public PollingComponent,
@@ -29,6 +32,7 @@ class Xl4432SPISensor : public sensor::Sensor,
   void set_packet_sniff(bool packet_sniff);
   void set_tcp_server(bool enabled);
   void send_to_clients(const char *line);
+    void set_irq_pin(InternalGPIOPin *pin) { irq_pin_ = pin; }
 
   // Packet statistics
   uint32_t stat_total_{0};
@@ -38,6 +42,7 @@ class Xl4432SPISensor : public sensor::Sensor,
 
  private:
   bool tcp_enabled_{false};
+  InternalGPIOPin *irq_pin_{nullptr};
 #ifdef USE_ARDUINO
   WiFiServer tcp_server_{SNIFF_TCP_PORT};
   WiFiClient tcp_clients_[3];

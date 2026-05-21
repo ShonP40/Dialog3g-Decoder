@@ -9,7 +9,6 @@ namespace esphome {
 namespace xl4432_spi_sensor {
 
 static const char *TAG = "xl4432_spi_sensor.sensor";
-#define nIRQ_PIN     5
 
 char  METER_ID[]= {0x12,0x34,0x56};
 
@@ -54,19 +53,21 @@ void Xl4432SPISensor::set_tcp_server(bool enabled) {
   tcp_enabled_ = enabled;
 }
 
-IRAM_ATTR void nIRQ_ISR(){
+IRAM_ATTR void nIRQ_ISR(Xl4432SPISensor *) {
   xl4432.spiDisableReciver();
   xl4432.checkForNewPacket();
   xl4432.spiEnableReciver();
 }
 
 void Xl4432SPISensor::setup() {
-    pinMode(SS, OUTPUT);
-    digitalWrite(SS, HIGH);
-    pinMode(nIRQ_PIN, INPUT);
-    attachInterrupt(nIRQ_PIN, nIRQ_ISR, FALLING);
-    xl4432.initXl4432Registers();
-    xl4432.lastMeterMeasurment = 0;
+  this->spi_setup();
+  xl4432.set_spi_client(this);
+  if (this->irq_pin_ != nullptr) {
+    this->irq_pin_->setup();
+    this->irq_pin_->attach_interrupt(&nIRQ_ISR, this, gpio::INTERRUPT_FALLING_EDGE);
+  }
+  xl4432.initXl4432Registers();
+  xl4432.lastMeterMeasurment = 0;
 #ifdef USE_ARDUINO
     if (tcp_enabled_) {
         tcp_server_.begin();
