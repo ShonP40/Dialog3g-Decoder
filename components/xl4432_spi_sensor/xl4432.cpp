@@ -225,12 +225,13 @@ void Xl4432::readPacketFromFifo()
 
 void Xl4432::spiInitRadio()
 {
+	uint8_t device_type = spiReadRegister(0x00);
+	uint8_t device_version = spiReadRegister(0x01);
+	ESP_LOGI("xl4432", "XL4432 probe: DEVTYPE=0x%02X VERSION=0x%02X", device_type, device_version);
 	spiWriteRegister(0x07, 0x80);
 	esphome::delay(100);
-	uint8_t mode = spiReadRegister(0x07);
-	uint8_t status = spiReadRegister(0x03);
-	uint8_t irq = spiReadRegister(0x04);
-	ESP_LOGI("xl4432", "SPI probe: MODE=0x%02X STATUS=0x%02X IRQ=0x%02X", mode, status, irq);
+	uint8_t post_reset_version = spiReadRegister(0x01);
+	ESP_LOGI("xl4432", "XL4432 post-reset VERSION=0x%02X", post_reset_version);
 	esphome::delay(100);
 }
 
