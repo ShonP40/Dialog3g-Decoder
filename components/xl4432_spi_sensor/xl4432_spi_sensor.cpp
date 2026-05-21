@@ -69,8 +69,8 @@ void Xl4432SPISensor::setup() {
     xl4432.lastMeterMeasurment = 0;
 #ifdef USE_ARDUINO
     if (tcp_enabled_) {
-      tcp_server_.begin();
-      ESP_LOGI(TAG, "TCP sniff server on port %d", SNIFF_TCP_PORT);
+        tcp_server_.begin();
+        ESP_LOGI(TAG, "TCP sniff server on port %d", SNIFF_TCP_PORT);
     }
 #endif
   });
