@@ -13,7 +13,7 @@ Xl4432SPISensor = xl4432_spi_sensor_ns.class_('Xl4432SPISensor', cg.PollingCompo
 CONFIG_SCHEMA = sensor.sensor_schema(unit_of_measurement=UNIT_EMPTY,icon=ICON_EMPTY, accuracy_decimals=1).extend({
     cv.GenerateID(): cv.declare_id(Xl4432SPISensor),
     cv.Required('meter_id'): cv.string,
-    cv.Optional('irq_pin', default=5): pins.internal_gpio_input_pin_schema,
+    cv.Optional('irq_pin', default=5): pins.internal_gpio_input_pullup_pin_schema,
     cv.Optional('packet_sniff', default=False): cv.boolean,
     cv.Optional('tcp_server', default=False): cv.boolean,
 }).extend(cv.polling_component_schema('5s')).extend(spi.spi_device_schema())

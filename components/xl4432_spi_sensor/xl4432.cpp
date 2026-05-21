@@ -298,6 +298,10 @@ void Xl4432::spiXl4432Fifo()
 {
 	uint8_t data;
 	for (uint8_t x = 0; x < 255; x++) {
+		if ((x & 0x0F) == 0) {
+			esphome::App.feed_wdt();
+			esphome::yield();
+		}
 		data = spiReadRegister(0x7F);
 	}
 }
