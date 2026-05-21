@@ -242,14 +242,11 @@ void Xl4432::spiEnableReciver()
 	spiWriteRegister(0x07, 0x05);
 	spiWriteRegister(0x05, 0x03);
 	spiWriteRegister(0x06, 0x00);
-	spiReadRegister(0x03);
-	spiReadRegister(0x04);
 }
 
 void Xl4432::initXl4432Registers()
 {
 	spiDisableReciver();
-	spiXl4432Fifo();
 	spiWriteRegister(0x1C, 0x8C);
 	spiWriteRegister(0x1D, 0x00);
 	spiWriteRegister(0x20, 0x65);

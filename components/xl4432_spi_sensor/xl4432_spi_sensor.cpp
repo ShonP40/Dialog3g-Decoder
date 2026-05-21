@@ -112,9 +112,7 @@ if (tcp_enabled_) {
 
 if (xl4432.nIRQState) {
   xl4432.nIRQState = 0;
-  xl4432.spiDisableReciver();
   xl4432.checkForNewPacket();
-  xl4432.spiEnableReciver();
 }
 
 if (!xl4432.packetReady)
